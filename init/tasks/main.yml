@@ -1,0 +1,8 @@
+- name: Get k8s credentials from gcloud
+  shell: gcloud container clusters get-credentials {{cluster_name}} --zone {{cluster_zone|default(zone)}} --project {{project}}
+- name: Set Gcloud's namespace `{{namespace}}`
+  shell: kubectl config set-context $(kubectl config current-context) --namespace={{namespace}}
+  ignore_errors: yes
+- name: Set Gcloud's zone `{{zone|default(cluster_zone)}}`
+  shell: |
+    gcloud config set compute/zone {{zone|default(cluster_zone)}}
